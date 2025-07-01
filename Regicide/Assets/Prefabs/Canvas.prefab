@@ -388,7 +388,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4294588114341354966}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4013319079556732315}
+        m_TargetAssemblyTypeName: VassalActions, Assembly-CSharp
+        m_MethodName: OnProcessClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2157130009466034466
 GameObject:
   m_ObjectHideFlags: 0
@@ -509,7 +521,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5628431660378548432}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4013319079556732315}
+        m_TargetAssemblyTypeName: VassalActions, Assembly-CSharp
+        m_MethodName: OnCookClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2759826565414707437
 GameObject:
   m_ObjectHideFlags: 0
@@ -885,7 +909,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 370258140896581724}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4013319079556732315}
+        m_TargetAssemblyTypeName: VassalActions, Assembly-CSharp
+        m_MethodName: OnBuildClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &8002072796157710409
 GameObject:
   m_ObjectHideFlags: 0

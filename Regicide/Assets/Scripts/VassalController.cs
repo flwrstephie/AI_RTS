@@ -9,17 +9,18 @@ public class VassalController : MonoBehaviour
     public WanderingAgent WanderScript => wanderScript;
     private NavMeshAgent agent;
     public NavMeshAgent Agent => agent;
-    private bool isSelected = false;
 
+    private bool isSelected = false;
     private static VassalController selectedVassal;
     private static GameObject buttonPanelInstance;
+
+    public bool CanBeSelected = true; // Controls if this vassal can be clicked
 
     private void Start()
     {
         wanderScript = GetComponent<WanderingAgent>();
         agent = GetComponent<NavMeshAgent>();
 
-        // Instantiate shared button panel ONCE
         if (buttonPanelInstance == null && buttonPanelPrefab != null)
         {
             buttonPanelInstance = Instantiate(buttonPanelPrefab);
@@ -29,11 +30,12 @@ public class VassalController : MonoBehaviour
 
     private void OnMouseDown()
     {
-        // Deselect old vassal if different
+        if (!CanBeSelected)
+            return;
+
         if (selectedVassal != null && selectedVassal != this)
             selectedVassal.Deselect();
 
-        // Toggle selection
         if (isSelected)
             Deselect();
         else
@@ -45,16 +47,17 @@ public class VassalController : MonoBehaviour
         isSelected = true;
         selectedVassal = this;
 
-        // Stop movement
-        if (wanderScript != null) wanderScript.enabled = false;
-        if (agent != null) agent.ResetPath();
+        if (wanderScript != null)
+            wanderScript.enabled = false;
 
-        // Move panel to above this vassal and activate
+        if (agent != null)
+            agent.ResetPath();
+
         if (buttonPanelInstance != null)
         {
             buttonPanelInstance.SetActive(true);
-            buttonPanelInstance.transform.SetParent(transform); // follow vassal
-            buttonPanelInstance.transform.localPosition = new Vector3(0, 5f, 0); // adjust height as needed
+            buttonPanelInstance.transform.SetParent(transform);
+            buttonPanelInstance.transform.localPosition = new Vector3(0, 5f, 0);
         }
     }
 
@@ -62,13 +65,15 @@ public class VassalController : MonoBehaviour
     {
         isSelected = false;
 
-        if (wanderScript != null) wanderScript.enabled = true;
+        if (wanderScript != null)
+            wanderScript.enabled = true;
+
         selectedVassal = null;
 
         if (buttonPanelInstance != null)
         {
             buttonPanelInstance.SetActive(false);
-            buttonPanelInstance.transform.SetParent(null); // unparent
+            buttonPanelInstance.transform.SetParent(null);
         }
     }
 
@@ -77,5 +82,6 @@ public class VassalController : MonoBehaviour
         if (selectedVassal != null)
             selectedVassal.Deselect();
     }
+
     public static VassalController Selected => selectedVassal;
 }
