@@ -8,6 +8,7 @@ public class VassalActions : MonoBehaviour
     private static Transform kitchenTransform;
     private static Transform factoryTransform;
     private static Transform cannonTransform;
+    private static Transform castleWallTransform;
 
     private void Awake()
     {
@@ -33,6 +34,11 @@ public class VassalActions : MonoBehaviour
         {
             GameObject cannon = GameObject.Find("Cannon");
             if (cannon != null) cannonTransform = cannon.transform;
+        }
+        if (castleWallTransform == null)
+        {
+            GameObject castleWall = GameObject.Find("CastleWalls");
+            if (castleWall != null) castleWallTransform = castleWall.transform;
         }
     }
 
@@ -72,6 +78,16 @@ public class VassalActions : MonoBehaviour
         {
             VassalController vassal = VassalController.Selected;
             vassal.StartCoroutine(CannonRoutine(vassal));
+            VassalController.DeselectAll();
+        }
+    }
+
+    public void OnDefendClicked()
+    {
+        if (VassalController.Selected != null && castleWallTransform != null)
+        {
+            VassalController vassal = VassalController.Selected;
+            vassal.StartCoroutine(DefendRoutine(vassal));
             VassalController.DeselectAll();
         }
     }
@@ -157,6 +173,23 @@ public class VassalActions : MonoBehaviour
 
         ReactivateVassal(vassal);
     }
+
+    private IEnumerator DefendRoutine(VassalController vassal)
+    {
+        yield return MoveAndHide(vassal, castleWallTransform);
+
+        yield return new WaitForSeconds(exploreDuration);
+
+        DangerResourceManager resourceManager = FindObjectOfType<DangerResourceManager>();
+        DefendZone defendZone = FindObjectOfType<DefendZone>();
+        if (defendZone != null)
+        {
+            defendZone.KillEnemy();
+        }
+
+        ReactivateVassal(vassal);
+    }
+
 
     private IEnumerator MoveAndHide(VassalController vassal, Transform target)
     {

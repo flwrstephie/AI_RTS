@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Vassal
+  - AttackZone
+  - Enemy
+  - DefendZone
   layers:
   - Default
   - TransparentFX
