@@ -1,5 +1,13 @@
 using UnityEngine;
 
+[System.Serializable]
+public struct SoundEffect
+{
+    public AudioClip clip;
+    [Range(0f, 1f)]
+    public float volume;
+}
+
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance { get; private set; }
@@ -7,6 +15,26 @@ public class AudioManager : MonoBehaviour
     [Header("Audio Sources")]
     public AudioSource bgmSource;
     public AudioSource sfxSource;
+
+    [Header("BGM")]
+    public AudioClip mainMenuBGM;
+    public AudioClip gameBGM;
+    public AudioClip gameOverBGM;
+
+    [Header("SFX")]
+    public SoundEffect sfxButton;
+    public SoundEffect sfxVassalSelect1;
+    public SoundEffect sfxVassalSelect2;
+    public SoundEffect sfxVassalYes1;
+    public SoundEffect sfxVassalYes2;
+    public SoundEffect sfxVassalDeath1;
+    public SoundEffect sfxVassalDeath2;
+    public SoundEffect sfxESpawn1;
+    public SoundEffect sfxESpawn2;
+    public SoundEffect sfxEAttack1;
+    public SoundEffect sfxEAttack2;
+    public SoundEffect sfxEDeath1;
+    public SoundEffect sfxEDeath2;
 
     private void Awake()
     {
@@ -33,10 +61,10 @@ public class AudioManager : MonoBehaviour
             sfxSource.volume = volume;
     }
 
-    public void PlaySFX(AudioClip clip)
+    public void PlaySFX(SoundEffect sfx)
     {
-        if (sfxSource != null && clip != null)
-            sfxSource.PlayOneShot(clip);
+        if (sfxSource != null && sfx.clip != null)
+            sfxSource.PlayOneShot(sfx.clip, sfx.volume);
     }
 
     public void PlayBGM(AudioClip clip, bool loop = true)
@@ -47,5 +75,40 @@ public class AudioManager : MonoBehaviour
             bgmSource.loop = loop;
             bgmSource.Play();
         }
+    }
+
+    public void PlayButtonClick()
+    {
+        PlaySFX(sfxButton);
+    }
+
+    public void PlayVassalSelect()
+    {
+        PlaySFX(Random.value < 0.5f ? sfxVassalSelect1 : sfxVassalSelect2);
+    }
+
+    public void PlayVassalYes()
+    {
+        PlaySFX(Random.value < 0.5f ? sfxVassalYes1 : sfxVassalYes2);
+    }
+
+    public void PlayVassalDeath()
+    {
+        PlaySFX(Random.value < 0.5f ? sfxVassalDeath1 : sfxVassalDeath2);
+    }
+
+    public void PlayEnemySpawn()
+    {
+        PlaySFX(Random.value < 0.5f ? sfxESpawn1 : sfxESpawn2);
+    }
+
+    public void PlayEnemyAttack()
+    {
+        PlaySFX(Random.value < 0.5f ? sfxEAttack1 : sfxEAttack2);
+    }
+
+    public void PlayEnemyDeath()
+    {
+        PlaySFX(Random.value < 0.5f ? sfxEDeath1 : sfxEDeath2);
     }
 }

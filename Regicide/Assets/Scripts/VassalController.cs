@@ -54,6 +54,7 @@ public class VassalController : MonoBehaviour
 
     private void Select()
     {
+        AudioManager.Instance.PlayVassalSelect();
         isSelected = true;
         selectedVassal = this;
 

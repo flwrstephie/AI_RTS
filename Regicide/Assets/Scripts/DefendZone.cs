@@ -57,6 +57,7 @@ public class DefendZone : MonoBehaviour
 
     private IEnumerator PlayDeathAndDestroy(EnemyAI enemyAI)
     {
+        AudioManager.Instance.PlayEnemyDeath();
         Animator animator = enemyAI.GetComponentInChildren<Animator>();
         if (animator != null)
         {

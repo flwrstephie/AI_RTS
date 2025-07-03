@@ -38,8 +38,9 @@ public class VassalActions : MonoBehaviour
 
         if (castleWallTransform == null)
         {
-            GameObject castleWall = GameObject.Find("CastleWalls");
-            if (castleWall != null) castleWallTransform = castleWall.transform;
+            GameObject[] castleWalls = GameObject.FindGameObjectsWithTag("CastleWall");
+            GameObject chosenWall = castleWalls[Random.Range(0, castleWalls.Length)];
+            castleWallTransform = chosenWall.transform;
         }
     }
 
@@ -172,7 +173,19 @@ public class VassalActions : MonoBehaviour
 
     private IEnumerator DefendRoutine(VassalController vassal)
     {
-        yield return MoveAndHide(vassal, castleWallTransform);
+        // Randomly choose a CastleWall now
+        GameObject[] castleWalls = GameObject.FindGameObjectsWithTag("CastleWall");
+        if (castleWalls.Length == 0)
+        {
+            Debug.LogWarning("No CastleWalls found in scene!");
+            yield break;
+        }
+
+        GameObject chosenWall = castleWalls[Random.Range(0, castleWalls.Length)];
+        Transform targetWall = chosenWall.transform;
+
+        // Move to and hide at selected wall
+        yield return MoveAndHide(vassal, targetWall);
         yield return new WaitForSeconds(3.5f);
 
         DangerResourceManager resourceManager = FindObjectOfType<DangerResourceManager>();
@@ -187,6 +200,7 @@ public class VassalActions : MonoBehaviour
 
     private IEnumerator MoveAndHide(VassalController vassal, Transform target)
     {
+        AudioManager.Instance.PlayVassalYes();
         foreach (MeshRenderer renderer in vassal.GetComponentsInChildren<MeshRenderer>())
         {
             foreach (Material mat in renderer.materials)

@@ -36,6 +36,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void SpawnEnemy()
     {
+        AudioManager.Instance.PlayEnemySpawn();
         float randomX = Random.Range(minXOffset, maxXOffset);
         Vector3 spawnPosition = new Vector3(
             transform.position.x + randomX,

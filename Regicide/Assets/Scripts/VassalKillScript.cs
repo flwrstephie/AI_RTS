@@ -63,6 +63,7 @@ public class VassalKillScript : MonoBehaviour
 
     private void KillVassal(string cause)
     {
+        AudioManager.Instance.PlayVassalDeath();
         if (drm.VassalNumber > 0)
         {
             bool killed = killZone != null && killZone.KillVassalInZone();

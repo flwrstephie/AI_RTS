@@ -25,6 +25,7 @@ public class EnemyAI : MonoBehaviour
     {
         if (other.CompareTag("AttackZone"))
         {
+            AudioManager.Instance.PlayEnemyAttack();
             isAttacking = true;
             animator?.SetBool("IsWalking", false);
             animator?.SetBool("IsAttacking", true); // 👈 switch to loop attack anim

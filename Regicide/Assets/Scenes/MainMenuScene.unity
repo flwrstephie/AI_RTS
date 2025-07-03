@@ -2143,7 +2143,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.032231, y: -205.47}
+  m_AnchoredPosition: {x: 0.032231, y: -191.4}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &821796641
@@ -4583,7 +4583,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -11}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1688709913
@@ -5145,7 +5145,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.96776, y: -362.53}
+  m_AnchoredPosition: {x: 0.96776, y: -354}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1854831389
@@ -5182,7 +5182,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -10.1}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1854831391
@@ -5584,6 +5584,48 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bgmSource: {fileID: 1332446054}
   sfxSource: {fileID: 1293840817}
+  mainMenuBGM: {fileID: 0}
+  gameBGM: {fileID: 0}
+  gameOverBGM: {fileID: 0}
+  sfxButton:
+    clip: {fileID: 0}
+    volume: 0
+  sfxVassalSelect1:
+    clip: {fileID: 8300000, guid: 103d1da97ec785d44ada5bac9438548f, type: 3}
+    volume: 1
+  sfxVassalSelect2:
+    clip: {fileID: 8300000, guid: ee7e4c15189d4ab469f0273a1312c644, type: 3}
+    volume: 0.453
+  sfxVassalYes1:
+    clip: {fileID: 8300000, guid: d1ce487790f4e1247a68ff68ebdf17dd, type: 3}
+    volume: 0.111
+  sfxVassalYes2:
+    clip: {fileID: 8300000, guid: 57b925594a5085c40a3db89ec58ee702, type: 3}
+    volume: 0.144
+  sfxVassalDeath1:
+    clip: {fileID: 8300000, guid: 8de5f5fd3a048a644b3678bc44e56e2d, type: 3}
+    volume: 0.607
+  sfxVassalDeath2:
+    clip: {fileID: 8300000, guid: 29f37675b3e17fa41b76fe804e61c0b6, type: 3}
+    volume: 0.601
+  sfxESpawn1:
+    clip: {fileID: 8300000, guid: f19d196452050aa4fbbd434fd5931102, type: 3}
+    volume: 0.701
+  sfxESpawn2:
+    clip: {fileID: 8300000, guid: 8f1f9ef057311414488210907bdcb9a4, type: 3}
+    volume: 0.715
+  sfxEAttack1:
+    clip: {fileID: 8300000, guid: e504e8d438188f1419b67f3ac3d8ecb2, type: 3}
+    volume: 0.782
+  sfxEAttack2:
+    clip: {fileID: 8300000, guid: 153a144e284e6d04c89812601ad9e33c, type: 3}
+    volume: 0.789
+  sfxEDeath1:
+    clip: {fileID: 8300000, guid: e4632210e0f91044fadd6b94026a3b9c, type: 3}
+    volume: 0.507
+  sfxEDeath2:
+    clip: {fileID: 8300000, guid: 5b7c33e3df55a9b438f349c598ac1904, type: 3}
+    volume: 0.748
 --- !u!1 &2137179330
 GameObject:
   m_ObjectHideFlags: 0

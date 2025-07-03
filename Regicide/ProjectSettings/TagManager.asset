@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - DefendZone
   - VassalKillZone
+  - CastleWall
   layers:
   - Default
   - TransparentFX
