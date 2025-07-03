@@ -146,6 +146,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wanderRadius: 200
   pauseDurationRange: {x: 0.1, y: 0.5}
+  maxStuckTime: 5
 --- !u!114 &4314577960365138884
 MonoBehaviour:
   m_ObjectHideFlags: 0

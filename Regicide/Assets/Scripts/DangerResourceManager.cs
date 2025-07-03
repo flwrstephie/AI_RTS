@@ -77,8 +77,8 @@ public class DangerResourceManager : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(5f);
-            HungerLevel -= 1;
+            yield return new WaitForSeconds(6f);
+            HungerLevel -= Random.Range(1, 4);
         }
     }
 
@@ -94,25 +94,25 @@ public class DangerResourceManager : MonoBehaviour
 
                 if (drainFood && RawFood > 0)
                 {
-                    RawFood -= 1;
+                    RawFood -= Random.Range(1, 3);
                     Debug.Log("[DangerDrain] -1 Raw Food (Danger ≤ 60)");
                 }
                 else if (!drainFood && RawMaterial > 0)
                 {
-                    RawMaterial -= 1;
+                    RawMaterial -= Random.Range(1, 3);
                     Debug.Log("[DangerDrain] -1 Raw Material (Danger ≤ 60)");
                 }
             }
 
             if (DangerLevel <= 40 && ProcessedMaterial > 0)
             {
-                ProcessedMaterial -= 1;
+                ProcessedMaterial -= Random.Range(1, 3);
                 Debug.Log("[DangerDrain] -1 Processed Material (Danger ≤ 40)");
             }
 
             if (DangerLevel <= 20 && CannonCompletion > 0)
             {
-                CannonCompletion -= 1;
+                CannonCompletion -= Random.Range(1, 3);
                 Debug.Log("[DangerDrain] -1% Cannon Progress (Danger ≤ 20)");
             }
         }

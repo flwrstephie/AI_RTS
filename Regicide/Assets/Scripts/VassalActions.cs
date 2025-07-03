@@ -35,6 +35,7 @@ public class VassalActions : MonoBehaviour
             GameObject cannon = GameObject.Find("Cannon");
             if (cannon != null) cannonTransform = cannon.transform;
         }
+
         if (castleWallTransform == null)
         {
             GameObject castleWall = GameObject.Find("CastleWalls");
@@ -48,7 +49,7 @@ public class VassalActions : MonoBehaviour
         {
             VassalController vassal = VassalController.Selected;
             vassal.StartCoroutine(ExploreRoutine(vassal));
-            VassalController.DeselectAll();
+            vassal.DeselectButHold();
         }
     }
 
@@ -58,7 +59,7 @@ public class VassalActions : MonoBehaviour
         {
             VassalController vassal = VassalController.Selected;
             vassal.StartCoroutine(KitchenRoutine(vassal));
-            VassalController.DeselectAll();
+            vassal.DeselectButHold();
         }
     }
 
@@ -68,7 +69,7 @@ public class VassalActions : MonoBehaviour
         {
             VassalController vassal = VassalController.Selected;
             vassal.StartCoroutine(FactoryRoutine(vassal));
-            VassalController.DeselectAll();
+            vassal.DeselectButHold();
         }
     }
 
@@ -78,7 +79,7 @@ public class VassalActions : MonoBehaviour
         {
             VassalController vassal = VassalController.Selected;
             vassal.StartCoroutine(CannonRoutine(vassal));
-            VassalController.DeselectAll();
+            vassal.DeselectButHold();
         }
     }
 
@@ -88,15 +89,14 @@ public class VassalActions : MonoBehaviour
         {
             VassalController vassal = VassalController.Selected;
             vassal.StartCoroutine(DefendRoutine(vassal));
-            VassalController.DeselectAll();
+            vassal.DeselectButHold();
         }
     }
 
     private IEnumerator ExploreRoutine(VassalController vassal)
     {
         yield return MoveAndHide(vassal, caveTransform);
-
-        yield return new WaitForSeconds(exploreDuration);
+        yield return new WaitForSeconds(5f);
 
         DangerResourceManager resourceManager = FindObjectOfType<DangerResourceManager>();
         if (resourceManager != null)
@@ -122,8 +122,7 @@ public class VassalActions : MonoBehaviour
     private IEnumerator KitchenRoutine(VassalController vassal)
     {
         yield return MoveAndHide(vassal, kitchenTransform);
-
-        yield return new WaitForSeconds(exploreDuration);
+        yield return new WaitForSeconds(3f);
 
         DangerResourceManager resourceManager = FindObjectOfType<DangerResourceManager>();
         if (resourceManager != null && resourceManager.RawFood >= 3)
@@ -139,14 +138,12 @@ public class VassalActions : MonoBehaviour
     private IEnumerator FactoryRoutine(VassalController vassal)
     {
         yield return MoveAndHide(vassal, factoryTransform);
-
-        yield return new WaitForSeconds(exploreDuration);
+        yield return new WaitForSeconds(3f);
 
         DangerResourceManager resourceManager = FindObjectOfType<DangerResourceManager>();
         if (resourceManager != null && resourceManager.RawMaterial >= 3)
         {
             resourceManager.RawMaterial -= 3;
-            // Assuming you have a field for processed material (add one if missing)
             resourceManager.ProcessedMaterial += 1;
             Debug.Log($"[Factory] Processed 3 Raw Material into 1 Processed Material!");
         }
@@ -157,8 +154,7 @@ public class VassalActions : MonoBehaviour
     private IEnumerator CannonRoutine(VassalController vassal)
     {
         yield return MoveAndHide(vassal, cannonTransform);
-
-        yield return new WaitForSeconds(exploreDuration);
+        yield return new WaitForSeconds(3f);
 
         DangerResourceManager resourceManager = FindObjectOfType<DangerResourceManager>();
         if (resourceManager != null && resourceManager.ProcessedMaterial >= 3)
@@ -177,8 +173,7 @@ public class VassalActions : MonoBehaviour
     private IEnumerator DefendRoutine(VassalController vassal)
     {
         yield return MoveAndHide(vassal, castleWallTransform);
-
-        yield return new WaitForSeconds(exploreDuration);
+        yield return new WaitForSeconds(3.5f);
 
         DangerResourceManager resourceManager = FindObjectOfType<DangerResourceManager>();
         DefendZone defendZone = FindObjectOfType<DefendZone>();
@@ -190,40 +185,65 @@ public class VassalActions : MonoBehaviour
         ReactivateVassal(vassal);
     }
 
-
     private IEnumerator MoveAndHide(VassalController vassal, Transform target)
     {
+        foreach (MeshRenderer renderer in vassal.GetComponentsInChildren<MeshRenderer>())
+        {
+            foreach (Material mat in renderer.materials)
+            {
+                mat.color = Color.red;
+            }
+        }
+
         vassal.CanBeSelected = false;
 
-        if (vassal.WanderScript != null)
-            vassal.WanderScript.enabled = false;
+        vassal.DisableWandering();
 
-        vassal.Animator?.SetBool("IsWalking", true); // 👈 walking
+        vassal.Animator?.SetBool("IsWalking", true);
 
         vassal.Agent.SetDestination(target.position);
+
+        Collider col = vassal.GetComponent<Collider>();
+        if (col == null) col = vassal.GetComponentInChildren<Collider>();
+        bool wasTrigger = false;
+        if (col != null)
+        {
+            wasTrigger = col.isTrigger;
+            col.isTrigger = true;
+        }
 
         while (vassal.Agent.pathPending || vassal.Agent.remainingDistance > vassal.Agent.stoppingDistance)
             yield return null;
 
         vassal.Animator?.SetBool("IsWalking", false);
-        vassal.Animator?.SetTrigger("Interact"); // 👈 start working
+        vassal.Animator?.SetTrigger("Interact");
 
         vassal.Agent.ResetPath();
         vassal.Agent.velocity = Vector3.zero;
         vassal.Agent.isStopped = true;
         vassal.Agent.enabled = false;
 
-        Collider col = vassal.GetComponent<Collider>();
-        if (col != null) col.enabled = false;
+        if (col != null)
+        {
+            col.isTrigger = wasTrigger;
+            col.enabled = false;
+        }
 
         MeshRenderer mesh = vassal.GetComponent<MeshRenderer>();
         if (mesh == null) mesh = vassal.GetComponentInChildren<MeshRenderer>();
         if (mesh != null) mesh.enabled = false;
     }
 
-
     private void ReactivateVassal(VassalController vassal)
     {
+        foreach (MeshRenderer renderer in vassal.GetComponentsInChildren<MeshRenderer>())
+        {
+            foreach (Material mat in renderer.materials)
+            {
+                mat.color = Color.white;
+            }
+        }
+
         MeshRenderer mesh = vassal.GetComponent<MeshRenderer>();
         if (mesh == null) mesh = vassal.GetComponentInChildren<MeshRenderer>();
         if (mesh != null) mesh.enabled = true;
@@ -231,8 +251,7 @@ public class VassalActions : MonoBehaviour
         Collider col = vassal.GetComponent<Collider>();
         if (col != null) col.enabled = true;
 
-        if (vassal.WanderScript != null)
-            vassal.WanderScript.enabled = true;
+        vassal.EnableWandering();
 
         vassal.Agent.enabled = true;
         vassal.Agent.isStopped = false;
@@ -242,6 +261,5 @@ public class VassalActions : MonoBehaviour
         vassal.Animator?.SetBool("IsWalking", false);
         vassal.Animator?.ResetTrigger("Interact");
         vassal.Animator?.ResetTrigger("Attack");
-
     }
 }

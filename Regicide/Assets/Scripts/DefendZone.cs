@@ -70,23 +70,34 @@ public class DefendZone : MonoBehaviour
         Destroy(enemyAI.gameObject);
     }
 
-
-
     private IEnumerator DangerLevelCheck()
     {
         while (true)
         {
-            if (enemiesInZone.Count > 0)
+            int count = enemiesInZone.Count;
+
+            if (count > 0)
             {
                 yield return new WaitForSeconds(3f);
-                int dangerDrop = Random.Range(1, 4);
-                dangerManager.DangerLevel = Mathf.Max(0, dangerManager.DangerLevel - dangerDrop);
-                Debug.Log($"[DefendZone] DangerLevel -{dangerDrop} (Enemies in zone)");
+
+                int multiplier = 1;
+                if (count >= 10)
+                    multiplier = 4;
+                else if (count >= 6)
+                    multiplier = 3;
+                else if (count >= 3)
+                    multiplier = 2;
+
+                int baseDrain = Random.Range(1, 4); // 1 to 3
+                int totalDrain = baseDrain * multiplier;
+
+                dangerManager.DangerLevel = Mathf.Max(0, dangerManager.DangerLevel - totalDrain);
+                Debug.Log($"[DefendZone] DangerLevel -{totalDrain} (Base {baseDrain} x{multiplier} | {count} enemies)");
             }
             else
             {
                 yield return new WaitForSeconds(1f);
-                dangerManager.DangerLevel += 1;
+                dangerManager.DangerLevel = Mathf.Min(100, dangerManager.DangerLevel + 1); // clamp to max
                 Debug.Log("[DefendZone] DangerLevel +1 (Zone is clear)");
             }
         }

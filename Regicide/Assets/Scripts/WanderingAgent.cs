@@ -8,16 +8,19 @@ public class WanderingAgent : MonoBehaviour
 
     public float wanderRadius = 20f;
     public Vector2 pauseDurationRange = new Vector2(0.1f, 0.5f); // min and max pause durations
+    public float maxStuckTime = 5f; // reroute if stuck for this long
 
     private bool isPaused = false;
     private float pauseTimer = 0f;
     private float currentPauseDuration = 0f;
 
+    private float stuckTimer = 0f;
+
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        SetNewRandomDestination();
         animator = GetComponentInChildren<Animator>();
+        SetNewRandomDestination();
     }
 
     private void Update()
@@ -31,6 +34,8 @@ public class WanderingAgent : MonoBehaviour
                 isPaused = false;
                 SetNewRandomDestination();
             }
+
+            stuckTimer = 0f; // reset stuck timer when paused
         }
         else
         {
@@ -48,14 +53,24 @@ public class WanderingAgent : MonoBehaviour
                     {
                         SetNewRandomDestination();
                     }
+
+                    stuckTimer = 0f; // reset on reaching
+                }
+            }
+            else
+            {
+                stuckTimer += Time.deltaTime;
+
+                if (stuckTimer >= maxStuckTime)
+                {
+                    Debug.LogWarning($"[{name}] Rerouting due to being stuck.");
+                    SetNewRandomDestination();
+                    stuckTimer = 0f;
                 }
             }
         }
 
-        if (agent.velocity.magnitude > 0.1f)
-            animator?.SetBool("IsWalking", true);
-        else
-            animator?.SetBool("IsWalking", false);
+        animator?.SetBool("IsWalking", agent.velocity.magnitude > 0.1f);
     }
 
     private void SetNewRandomDestination()
@@ -64,8 +79,9 @@ public class WanderingAgent : MonoBehaviour
         randomDirection += transform.position;
 
         NavMeshHit navHit;
-        NavMesh.SamplePosition(randomDirection, out navHit, wanderRadius, NavMesh.AllAreas);
-
-        agent.SetDestination(navHit.position);
+        if (NavMesh.SamplePosition(randomDirection, out navHit, wanderRadius, NavMesh.AllAreas))
+        {
+            agent.SetDestination(navHit.position);
+        }
     }
 }
