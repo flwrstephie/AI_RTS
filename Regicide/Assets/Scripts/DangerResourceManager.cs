@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class DangerResourceManager : MonoBehaviour
@@ -21,6 +22,10 @@ public class DangerResourceManager : MonoBehaviour
 
     private const int HungerMax = 100;
     private const int DangerMax = 100;
+
+    public Slider hungerSlider;
+    public Slider dangerSlider;
+
 
     private void Awake()
     {
@@ -62,7 +67,11 @@ public class DangerResourceManager : MonoBehaviour
         if (processed_materialText != null) processed_materialText.text = $"{ProcessedMaterial}";
         if (cannonText != null) cannonText.text = $"{CannonCompletion}%";
         if (vassalText != null) vassalText.text = $"{VassalNumber}";
+
+        if (dangerSlider != null) dangerSlider.value = DangerLevel / (float)DangerMax;
+        if (hungerSlider != null) hungerSlider.value = HungerLevel / (float)HungerMax;
     }
+
 
     private System.Collections.IEnumerator HungerDrainRoutine()
     {
