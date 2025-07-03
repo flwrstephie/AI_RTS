@@ -97,6 +97,7 @@ public class VassalActions : MonoBehaviour
     private IEnumerator ExploreRoutine(VassalController vassal)
     {
         yield return MoveAndHide(vassal, caveTransform);
+        AudioManager.Instance.PlayTaskLoop("Explore");
         yield return new WaitForSeconds(5f);
 
         DangerResourceManager resourceManager = FindObjectOfType<DangerResourceManager>();
@@ -105,50 +106,52 @@ public class VassalActions : MonoBehaviour
             int roll = Random.Range(0, 2);
             if (roll == 0)
             {
-                int foodGain = Random.Range(2, 6);
+                int foodGain = Random.Range(6, 12);
                 resourceManager.RawFood += foodGain;
                 Debug.Log($"[Explore] Found {foodGain} Raw Food!");
             }
             else
             {
-                int matGain = Random.Range(1, 5);
+                int matGain = Random.Range(5, 10);
                 resourceManager.RawMaterial += matGain;
                 Debug.Log($"[Explore] Found {matGain} Raw Material!");
             }
         }
-
+        AudioManager.Instance.StopTaskLoop("Explore");
         ReactivateVassal(vassal);
     }
 
     private IEnumerator KitchenRoutine(VassalController vassal)
     {
         yield return MoveAndHide(vassal, kitchenTransform);
+        AudioManager.Instance.PlayTaskLoop("Kitchen");
         yield return new WaitForSeconds(3f);
 
         DangerResourceManager resourceManager = FindObjectOfType<DangerResourceManager>();
         if (resourceManager != null && resourceManager.RawFood >= 3)
         {
             resourceManager.RawFood -= 3;
-            resourceManager.HungerLevel += 6;
+            resourceManager.HungerLevel += 9;
             Debug.Log($"[Kitchen] Cooked 3 Raw Food into 6 Hunger!");
         }
-
+        AudioManager.Instance.StopTaskLoop("Kitchen");
         ReactivateVassal(vassal);
     }
 
     private IEnumerator FactoryRoutine(VassalController vassal)
     {
         yield return MoveAndHide(vassal, factoryTransform);
+        AudioManager.Instance.PlayTaskLoop("Factory");
         yield return new WaitForSeconds(3f);
 
         DangerResourceManager resourceManager = FindObjectOfType<DangerResourceManager>();
         if (resourceManager != null && resourceManager.RawMaterial >= 3)
         {
             resourceManager.RawMaterial -= 3;
-            resourceManager.ProcessedMaterial += 1;
+            resourceManager.ProcessedMaterial += Random.Range(4, 8);
             Debug.Log($"[Factory] Processed 3 Raw Material into 1 Processed Material!");
         }
-
+        AudioManager.Instance.StopTaskLoop("Factory");
         ReactivateVassal(vassal);
     }
 
@@ -162,10 +165,11 @@ public class VassalActions : MonoBehaviour
         {
             resourceManager.ProcessedMaterial -= 3;
 
-            int completionGain = Random.Range(1, 4); // 1 to 3 inclusive
+            int completionGain = Random.Range(3, 6); // 1 to 3 inclusive
             resourceManager.CannonCompletion += completionGain;
 
             Debug.Log($"[Cannon] Used 3 Processed Material → +{completionGain}% Cannon Completion");
+            AudioManager.Instance.PlayQueenDialog();
         }
 
         ReactivateVassal(vassal);
@@ -186,6 +190,7 @@ public class VassalActions : MonoBehaviour
 
         // Move to and hide at selected wall
         yield return MoveAndHide(vassal, targetWall);
+        AudioManager.Instance.PlayTaskLoop("Defend");
         yield return new WaitForSeconds(3.5f);
 
         DangerResourceManager resourceManager = FindObjectOfType<DangerResourceManager>();
@@ -194,7 +199,7 @@ public class VassalActions : MonoBehaviour
         {
             defendZone.KillEnemy();
         }
-
+        AudioManager.Instance.StopTaskLoop("Defend");
         ReactivateVassal(vassal);
     }
 
@@ -214,6 +219,8 @@ public class VassalActions : MonoBehaviour
         vassal.DisableWandering();
 
         vassal.Animator?.SetBool("IsWalking", true);
+        
+        vassal.Agent.obstacleAvoidanceType = UnityEngine.AI.ObstacleAvoidanceType.NoObstacleAvoidance;
 
         vassal.Agent.SetDestination(target.position);
 
@@ -266,7 +273,8 @@ public class VassalActions : MonoBehaviour
         if (col != null) col.enabled = true;
 
         vassal.EnableWandering();
-
+        
+        vassal.Agent.obstacleAvoidanceType = UnityEngine.AI.ObstacleAvoidanceType.MedQualityObstacleAvoidance;
         vassal.Agent.enabled = true;
         vassal.Agent.isStopped = false;
 

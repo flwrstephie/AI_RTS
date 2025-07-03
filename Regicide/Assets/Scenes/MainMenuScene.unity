@@ -5587,6 +5587,14 @@ MonoBehaviour:
   mainMenuBGM: {fileID: 0}
   gameBGM: {fileID: 0}
   gameOverBGM: {fileID: 0}
+  exploreLoopClip: {fileID: 8300000, guid: c908cea76a41a4147bf431a4de4744da, type: 3}
+  exploreLoopVolume: 0.755
+  kitchenLoopClip: {fileID: 8300000, guid: d6639d7c78fc21a4eb31c1d00b9a54ca, type: 3}
+  kitchenLoopVolume: 0.372
+  factoryLoopClip: {fileID: 8300000, guid: c6557644dac94244a954e1dda7611ec1, type: 3}
+  factoryLoopVolume: 0.339
+  defendLoopClip: {fileID: 8300000, guid: 5bb1454dfdd919341a558eda283360ca, type: 3}
+  defendLoopVolume: 0.185
   sfxButton:
     clip: {fileID: 0}
     volume: 0
@@ -5610,22 +5618,31 @@ MonoBehaviour:
     volume: 0.601
   sfxESpawn1:
     clip: {fileID: 8300000, guid: f19d196452050aa4fbbd434fd5931102, type: 3}
-    volume: 0.701
+    volume: 0.446
   sfxESpawn2:
     clip: {fileID: 8300000, guid: 8f1f9ef057311414488210907bdcb9a4, type: 3}
-    volume: 0.715
+    volume: 0.466
   sfxEAttack1:
     clip: {fileID: 8300000, guid: e504e8d438188f1419b67f3ac3d8ecb2, type: 3}
-    volume: 0.782
+    volume: 0.527
   sfxEAttack2:
     clip: {fileID: 8300000, guid: 153a144e284e6d04c89812601ad9e33c, type: 3}
-    volume: 0.789
+    volume: 0.507
   sfxEDeath1:
     clip: {fileID: 8300000, guid: e4632210e0f91044fadd6b94026a3b9c, type: 3}
-    volume: 0.507
+    volume: 0.372
   sfxEDeath2:
     clip: {fileID: 8300000, guid: 5b7c33e3df55a9b438f349c598ac1904, type: 3}
-    volume: 0.748
+    volume: 0.856
+  QueenDialog1:
+    clip: {fileID: 8300000, guid: e87a70070d6cd0e4ca330926f5090c0f, type: 3}
+    volume: 0.883
+  QueenDialog2:
+    clip: {fileID: 8300000, guid: 0273f390e9d93774e94dc22631b98262, type: 3}
+    volume: 0.862
+  QueenDialog3:
+    clip: {fileID: 8300000, guid: 116d012c4171a804781869e191065d00, type: 3}
+    volume: 0.869
 --- !u!1 &2137179330
 GameObject:
   m_ObjectHideFlags: 0

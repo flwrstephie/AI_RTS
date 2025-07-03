@@ -10,6 +10,10 @@ TagManager:
   - DefendZone
   - VassalKillZone
   - CastleWall
+  - Cave
+  - Factory
+  - Kitchen
+  - Cannon
   layers:
   - Default
   - TransparentFX

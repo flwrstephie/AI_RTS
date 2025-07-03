@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 [System.Serializable]
 public struct SoundEffect
@@ -21,6 +22,19 @@ public class AudioManager : MonoBehaviour
     public AudioClip gameBGM;
     public AudioClip gameOverBGM;
 
+    [Header("Looping Task Clips")]
+    public AudioClip exploreLoopClip;
+    [Range(0f, 1f)] public float exploreLoopVolume = 1f;
+
+    public AudioClip kitchenLoopClip;
+    [Range(0f, 1f)] public float kitchenLoopVolume = 1f;
+
+    public AudioClip factoryLoopClip;
+    [Range(0f, 1f)] public float factoryLoopVolume = 1f;
+
+    public AudioClip defendLoopClip;
+    [Range(0f, 1f)] public float defendLoopVolume = 1f;
+
     [Header("SFX")]
     public SoundEffect sfxButton;
     public SoundEffect sfxVassalSelect1;
@@ -35,10 +49,18 @@ public class AudioManager : MonoBehaviour
     public SoundEffect sfxEAttack2;
     public SoundEffect sfxEDeath1;
     public SoundEffect sfxEDeath2;
+    public SoundEffect QueenDialog1;
+    public SoundEffect QueenDialog2;
+    public SoundEffect QueenDialog3;
+    private SoundEffect[] QueenDialogs;
+
+    private AudioSource exploreSource;
+    private AudioSource kitchenSource;
+    private AudioSource factorySource;
+    private AudioSource defendSource;
 
     private void Awake()
     {
-        // Singleton setup
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -47,6 +69,22 @@ public class AudioManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+
+        exploreSource = gameObject.AddComponent<AudioSource>();
+        kitchenSource = gameObject.AddComponent<AudioSource>();
+        factorySource = gameObject.AddComponent<AudioSource>();
+        defendSource = gameObject.AddComponent<AudioSource>();
+        sfxSource = gameObject.AddComponent<AudioSource>();
+
+        foreach (var src in new[] { exploreSource, kitchenSource, factorySource, defendSource })
+        {
+            src.loop = true;
+            src.playOnAwake = false;
+        }
+
+        sfxSource.loop = false;
+        sfxSource.playOnAwake = false;
+        QueenDialogs = new[] { QueenDialog1, QueenDialog2, QueenDialog3 };
     }
 
     public void SetBGMVolume(float volume)
@@ -110,5 +148,99 @@ public class AudioManager : MonoBehaviour
     public void PlayEnemyDeath()
     {
         PlaySFX(Random.value < 0.5f ? sfxEDeath1 : sfxEDeath2);
+    }
+
+    public void PlayQueenDialog()
+    {
+        if (QueenDialogs.Length > 0)
+        {
+            int index = Random.Range(0, QueenDialogs.Length);
+            PlaySFX(QueenDialogs[index]);
+        }
+    }
+
+    public void StopAllLoopingTasks()
+    {
+        StopLoopWithFade(exploreSource);
+        StopLoopWithFade(kitchenSource);
+        StopLoopWithFade(factorySource);
+        StopLoopWithFade(defendSource);
+    }
+
+    public void PlayTaskLoop(string taskName)
+    {
+        switch (taskName)
+        {
+            case "Explore":
+                if (exploreSource.clip == exploreLoopClip && exploreSource.isPlaying)
+                    return;
+
+                exploreSource.clip = exploreLoopClip;
+                exploreSource.volume = exploreLoopVolume;
+                exploreSource.Play();
+                break;
+
+            case "Kitchen":
+                if (kitchenSource.clip == kitchenLoopClip && kitchenSource.isPlaying)
+                    return;
+
+                kitchenSource.clip = kitchenLoopClip;
+                kitchenSource.volume = kitchenLoopVolume;
+                kitchenSource.Play();
+                break;
+
+            case "Factory":
+                if (factorySource.clip == factoryLoopClip && factorySource.isPlaying)
+                    return;
+
+                factorySource.clip = factoryLoopClip;
+                factorySource.volume = factoryLoopVolume;
+                factorySource.Play();
+                break;
+
+            case "Defend":
+                if (defendSource.clip == defendLoopClip && defendSource.isPlaying)
+                    return;
+
+                defendSource.clip = defendLoopClip;
+                defendSource.volume = defendLoopVolume;
+                defendSource.Play();
+                break;
+        }
+    }
+
+    public void StopTaskLoop(string taskName)
+    {
+        switch (taskName)
+        {
+            case "Explore": StopLoopWithFade(exploreSource); break;
+            case "Kitchen": StopLoopWithFade(kitchenSource); break;
+            case "Factory": StopLoopWithFade(factorySource); break;
+            case "Defend": StopLoopWithFade(defendSource); break;
+        }
+    }
+
+    private void StopLoopWithFade(AudioSource source)
+    {
+        if (source.isPlaying)
+        {
+            StartCoroutine(FadeOutAndStop(source, 0.5f));
+        }
+    }
+
+    private IEnumerator FadeOutAndStop(AudioSource source, float duration)
+    {
+        float startVolume = source.volume;
+        float time = 0f;
+
+        while (time < duration)
+        {
+            time += Time.deltaTime;
+            source.volume = Mathf.Lerp(startVolume, 0f, time / duration);
+            yield return null;
+        }
+
+        source.Stop();
+        source.volume = startVolume; // Reset for future use
     }
 }
