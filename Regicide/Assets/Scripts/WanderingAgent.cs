@@ -4,6 +4,7 @@ using UnityEngine.AI;
 public class WanderingAgent : MonoBehaviour
 {
     private NavMeshAgent agent;
+    private Animator animator;
 
     public float wanderRadius = 20f;
     public Vector2 pauseDurationRange = new Vector2(0.1f, 0.5f); // min and max pause durations
@@ -16,6 +17,7 @@ public class WanderingAgent : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         SetNewRandomDestination();
+        animator = GetComponentInChildren<Animator>();
     }
 
     private void Update()
@@ -49,6 +51,11 @@ public class WanderingAgent : MonoBehaviour
                 }
             }
         }
+
+        if (agent.velocity.magnitude > 0.1f)
+            animator?.SetBool("IsWalking", true);
+        else
+            animator?.SetBool("IsWalking", false);
     }
 
     private void SetNewRandomDestination()

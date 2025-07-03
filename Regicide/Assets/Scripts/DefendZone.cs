@@ -40,19 +40,37 @@ public class DefendZone : MonoBehaviour
         if (enemiesInZone.Count > 0)
         {
             GameObject target = enemiesInZone[0];
+            enemiesInZone.RemoveAt(0);
+
             EnemyAI enemyAI = target.GetComponent<EnemyAI>();
             if (enemyAI != null)
             {
-                Debug.Log($"[DefendZone] Destroying enemy: {enemyAI.name}");
-                Destroy(enemyAI.gameObject);
+                Debug.Log($"[DefendZone] Killing enemy: {enemyAI.name}");
+                StartCoroutine(PlayDeathAndDestroy(enemyAI));
             }
-            enemiesInZone.RemoveAt(0);
         }
         else
         {
             Debug.Log("[DefendZone] No enemies in zone.");
         }
     }
+
+    private IEnumerator PlayDeathAndDestroy(EnemyAI enemyAI)
+    {
+        Animator animator = enemyAI.GetComponentInChildren<Animator>();
+        if (animator != null)
+        {
+            animator.SetTrigger("Die"); // make sure this trigger exists in the Animator
+        }
+
+        // Disable movement
+        enemyAI.enabled = false;
+
+        yield return new WaitForSeconds(1.5f); // wait for death animation (adjust as needed)
+        Destroy(enemyAI.gameObject);
+    }
+
+
 
     private IEnumerator DangerLevelCheck()
     {

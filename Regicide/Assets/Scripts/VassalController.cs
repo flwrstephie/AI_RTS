@@ -15,7 +15,14 @@ public class VassalController : MonoBehaviour
     private static GameObject buttonPanelInstance;
 
     public bool CanBeSelected = true; // Controls if this vassal can be clicked
+    
+    private Animator animator;
+    public Animator Animator => animator;
 
+    private void Awake()
+    {
+        animator = GetComponentInChildren<Animator>();
+    }
     private void Start()
     {
         wanderScript = GetComponent<WanderingAgent>();

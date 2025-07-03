@@ -198,10 +198,15 @@ public class VassalActions : MonoBehaviour
         if (vassal.WanderScript != null)
             vassal.WanderScript.enabled = false;
 
+        vassal.Animator?.SetBool("IsWalking", true); // 👈 walking
+
         vassal.Agent.SetDestination(target.position);
 
         while (vassal.Agent.pathPending || vassal.Agent.remainingDistance > vassal.Agent.stoppingDistance)
             yield return null;
+
+        vassal.Animator?.SetBool("IsWalking", false);
+        vassal.Animator?.SetTrigger("Interact"); // 👈 start working
 
         vassal.Agent.ResetPath();
         vassal.Agent.velocity = Vector3.zero;
@@ -215,6 +220,7 @@ public class VassalActions : MonoBehaviour
         if (mesh == null) mesh = vassal.GetComponentInChildren<MeshRenderer>();
         if (mesh != null) mesh.enabled = false;
     }
+
 
     private void ReactivateVassal(VassalController vassal)
     {
@@ -232,5 +238,10 @@ public class VassalActions : MonoBehaviour
         vassal.Agent.isStopped = false;
 
         vassal.CanBeSelected = true;
+
+        vassal.Animator?.SetBool("IsWalking", false);
+        vassal.Animator?.ResetTrigger("Interact");
+        vassal.Animator?.ResetTrigger("Attack");
+
     }
 }
