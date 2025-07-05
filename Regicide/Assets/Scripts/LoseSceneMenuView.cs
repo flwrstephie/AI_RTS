@@ -4,17 +4,16 @@ using UnityEngine.SceneManagement;
 
 public class LoseSceneMenuView : View
 {
-    [SerializeField] private Button backToMainButton;
+    [SerializeField] private Button _backToMainButton;
 
-    private void Start()
+    public override void Initialize()
     {
-        if (backToMainButton != null)
-            backToMainButton.onClick.AddListener(OnBackToMainMenu);
+        _backToMainButton.onClick.AddListener(OnBackToMainMenuClicked);
     }
 
-    private void OnBackToMainMenu()
+    private void OnBackToMainMenuClicked()
     {
-        AudioManager.Instance.PlayButtonClick(); 
-        SceneManager.LoadScene("MainMenu"); // Make sure your main menu scene name matches
+        // AudioManager.Instance.PlayButtonClick(); // SFX
+        SceneManager.LoadScene("MainMenuScene"); // Match the actual scene name
     }
 }

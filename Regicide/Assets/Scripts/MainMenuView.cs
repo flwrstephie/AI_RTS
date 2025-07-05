@@ -26,9 +26,9 @@ public class MainMenuView : View
         AudioManager.Instance.PlayButtonClick(); // SFX
         Application.Quit();
 
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#endif
+        #if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+        #endif
     }
 
     private void OnSettingsClicked()
