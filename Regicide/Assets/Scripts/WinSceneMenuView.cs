@@ -13,7 +13,7 @@ public class WinSceneMenuView : View
 
     private void OnBackToMainMenuClicked()
     {
-        // AudioManager.Instance.PlayButtonClick(); // SFX
+        AudioManager.Instance.PlayButtonClick(); // SFX
         SceneManager.LoadScene("MainMenuScene");
     }
 }
