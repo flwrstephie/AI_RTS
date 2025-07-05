@@ -14,6 +14,7 @@ public class WinSceneMenuView : View
 
     private void OnBackToMainMenu()
     {
+        AudioManager.Instance.PlayButtonClick(); 
         SceneManager.LoadScene("MainMenu");
     }
 }

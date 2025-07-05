@@ -15,12 +15,14 @@ public class PauseMenuView : View
 
     private void BackToMainMenu()
     {
+        AudioManager.Instance.PlayButtonClick(); 
         Time.timeScale = 1f;
         SceneManager.LoadScene("MainMenuScene");
     }
 
     private void BackToGame()
     {
+        AudioManager.Instance.PlayButtonClick(); 
         Time.timeScale = 1f;
         ViewManager.ShowLast();
     }

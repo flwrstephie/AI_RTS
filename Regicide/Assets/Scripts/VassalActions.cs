@@ -46,6 +46,7 @@ public class VassalActions : MonoBehaviour
 
     public void OnExploreClicked()
     {
+        AudioManager.Instance.PlayButtonClick(); 
         if (VassalController.Selected != null && caveTransform != null)
         {
             VassalController vassal = VassalController.Selected;
@@ -56,6 +57,7 @@ public class VassalActions : MonoBehaviour
 
     public void OnCookClicked()
     {
+        AudioManager.Instance.PlayButtonClick(); 
         if (VassalController.Selected != null && kitchenTransform != null)
         {
             VassalController vassal = VassalController.Selected;
@@ -66,6 +68,7 @@ public class VassalActions : MonoBehaviour
 
     public void OnProcessClicked()
     {
+        AudioManager.Instance.PlayButtonClick(); 
         if (VassalController.Selected != null && factoryTransform != null)
         {
             VassalController vassal = VassalController.Selected;
@@ -76,6 +79,7 @@ public class VassalActions : MonoBehaviour
 
     public void OnBuildClicked()
     {
+        AudioManager.Instance.PlayButtonClick(); 
         if (VassalController.Selected != null && cannonTransform != null)
         {
             VassalController vassal = VassalController.Selected;
@@ -86,6 +90,7 @@ public class VassalActions : MonoBehaviour
 
     public void OnDefendClicked()
     {
+        AudioManager.Instance.PlayButtonClick(); 
         if (VassalController.Selected != null && castleWallTransform != null)
         {
             VassalController vassal = VassalController.Selected;

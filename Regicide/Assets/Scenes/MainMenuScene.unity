@@ -2389,7 +2389,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -4284,7 +4284,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -5023,7 +5023,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -5584,9 +5584,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bgmSource: {fileID: 1332446054}
   sfxSource: {fileID: 1293840817}
-  mainMenuBGM: {fileID: 0}
-  gameBGM: {fileID: 0}
-  gameOverBGM: {fileID: 0}
+  mainMenuBGM: {fileID: 8300000, guid: b0376994551a7e842b4afec37ddb5b90, type: 3}
+  gameBGM: {fileID: 8300000, guid: 6818a48af91bdcd4fa963d2ebc2e0ede, type: 3}
+  gameOverBGM: {fileID: 8300000, guid: ba0f963bef3cc25468968c0dea0fd851, type: 3}
   exploreLoopClip: {fileID: 8300000, guid: c908cea76a41a4147bf431a4de4744da, type: 3}
   exploreLoopVolume: 0.755
   kitchenLoopClip: {fileID: 8300000, guid: d6639d7c78fc21a4eb31c1d00b9a54ca, type: 3}
@@ -5596,8 +5596,8 @@ MonoBehaviour:
   defendLoopClip: {fileID: 8300000, guid: 5bb1454dfdd919341a558eda283360ca, type: 3}
   defendLoopVolume: 0.185
   sfxButton:
-    clip: {fileID: 0}
-    volume: 0
+    clip: {fileID: 8300000, guid: 33e7628c497b8c34e9396af59ac69d54, type: 3}
+    volume: 1
   sfxVassalSelect1:
     clip: {fileID: 8300000, guid: 103d1da97ec785d44ada5bac9438548f, type: 3}
     volume: 1

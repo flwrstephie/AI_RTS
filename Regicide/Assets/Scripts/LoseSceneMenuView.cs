@@ -14,6 +14,7 @@ public class LoseSceneMenuView : View
 
     private void OnBackToMainMenu()
     {
+        AudioManager.Instance.PlayButtonClick(); 
         SceneManager.LoadScene("MainMenu"); // Make sure your main menu scene name matches
     }
 }

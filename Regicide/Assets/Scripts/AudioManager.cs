@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public struct SoundEffect
@@ -59,6 +60,15 @@ public class AudioManager : MonoBehaviour
     private AudioSource factorySource;
     private AudioSource defendSource;
 
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -242,5 +252,22 @@ public class AudioManager : MonoBehaviour
 
         source.Stop();
         source.volume = startVolume; // Reset for future use
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        switch (scene.name)
+        {
+            case "MainMenuScene":
+                PlayBGM(mainMenuBGM);
+                break;
+            case "GameScene":
+                PlayBGM(gameBGM);
+                break;
+            case "WinScene":
+            case "LoseScene":
+                PlayBGM(gameOverBGM);
+                break;
+        }
     }
 }

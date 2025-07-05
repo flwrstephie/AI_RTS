@@ -12,6 +12,7 @@ public class GameMenuView : View
 
     private void OpenPauseMenu()
     {
+        AudioManager.Instance.PlayButtonClick(); 
         ViewManager.Show<PauseMenuView>();
         Time.timeScale = 0f; // Pause game
     }
