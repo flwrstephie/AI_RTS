@@ -227,6 +227,12 @@ public class AudioManager : MonoBehaviour
             case "Kitchen": StopLoopWithFade(kitchenSource); break;
             case "Factory": StopLoopWithFade(factorySource); break;
             case "Defend": StopLoopWithFade(defendSource); break;
+            case "All":
+                StopLoopWithFade(exploreSource);
+                StopLoopWithFade(kitchenSource);
+                StopLoopWithFade(factorySource);
+                StopLoopWithFade(defendSource);
+                break;
         }
     }
 
@@ -256,6 +262,7 @@ public class AudioManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        StopTaskLoop("All");
         switch (scene.name)
         {
             case "MainMenuScene":

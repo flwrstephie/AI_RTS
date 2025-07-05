@@ -106,4 +106,16 @@ public class VassalSoundZone : MonoBehaviour
         zoneAudioSource.volume = loopVolume;
         fadeOutCoroutine = null;
     }
+
+    private void FadeOutImmediately()
+    {
+        if (zoneAudioSource != null && zoneAudioSource.isPlaying)
+        {
+            if (fadeOutCoroutine != null)
+                StopCoroutine(fadeOutCoroutine);
+
+            zoneAudioSource.volume = 0f;
+            zoneAudioSource.Stop();
+        }
+    }
 }
